@@ -33,8 +33,14 @@ Run `mix compile` to build both the Elixir and the C++ code.
 iex> {:ok, srv} = ExPerHash.start_link
 {:ok, #PID<0.91.0>}
 
-iex> ExPerHash.dd_hash srv, "some/image.png"
+iex> {:ok, hash1} = ExPerHash.dd_hash srv, "some/image.png"
 {:ok, <<140, 173, 167, 143, 157, 141, 14, 39, 77, 9, 3, 135, 23, 49, 25, 89>>}
+
+iex> {:ok, hash2} = ExPerHash.dd_hash srv, "some/other/image.png"
+{:ok, <<140, 173, 167, 143, 157, 141, 14, 39, 77, 9, 0, 135, 23, 49, 25, 89>>}
+
+iex> ExPerHash.hamming_distance srv, hash1, hash2
+{:ok, 2}
 ```
 
 Three hash functions are available: aHash, dHash and ddHash.
@@ -57,6 +63,9 @@ aHash and dHash, the hash is 64 bits (8 bytes), for ddHash it is 128 bits
 (16 bytes).
 
 On error, all functions return `{:error, {error_type, reason}`.
+
+The `hamming_distance/3` function compares two hashes and return the number of
+bits that differ. Low distance means similar images.
 
 
 ##License
