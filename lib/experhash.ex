@@ -60,7 +60,8 @@ defmodule ExPerHash do
   end
 
   def init(_args) do
-    port = Port.open {:spawn, "priv/experhash_port"}, [{:packet, 4}, :binary]
+    executable = Path.join(:code.priv_dir(:experhash), "experhash_port")
+    port = Port.open {:spawn, executable}, [{:packet, 4}, :binary]
 
     {:ok, %State{port: port}}
   end
