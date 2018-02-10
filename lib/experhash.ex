@@ -1,6 +1,8 @@
 defmodule ExPerHash do
   use GenServer
 
+  @timeout 10_000
+
   @type error :: {:error, {atom, atom}}
 
   @doc """
@@ -25,7 +27,7 @@ defmodule ExPerHash do
   """
   @spec a_hash(GenServer.server, String.t) :: {:ok, <<_ :: 64>>} | error
   def a_hash(server, filename) do
-    GenServer.call server, {:command, {:hash, :a, filename}}, 10000
+    GenServer.call server, {:command, {:hash, :a, filename}}, @timeout
   end
 
   @doc """
@@ -33,7 +35,7 @@ defmodule ExPerHash do
   """
   @spec d_hash(GenServer.server, String.t) :: {:ok, <<_ :: 64>>} | error
   def d_hash(server, filename) do
-    GenServer.call server, {:command, {:hash, :d, filename}}, 10000
+    GenServer.call server, {:command, {:hash, :d, filename}}, @timeout
   end
 
   @doc """
@@ -41,7 +43,7 @@ defmodule ExPerHash do
   """
   @spec dd_hash(GenServer.server, String.t) :: {:ok, <<_ :: 128>>} | error
   def dd_hash(server, filename) do
-    GenServer.call server, {:command, {:hash, :dd, filename}}, 10000
+    GenServer.call server, {:command, {:hash, :dd, filename}}, @timeout
   end
 
   @doc """
@@ -58,7 +60,8 @@ defmodule ExPerHash do
   end
 
   def init(_args) do
-    port = Port.open {:spawn, "priv/experhash_port"}, [{:packet, 4}, :binary]
+    executable = Path.join(:code.priv_dir(:experhash), "experhash_port")
+    port = Port.open {:spawn, executable}, [{:packet, 4}, :binary]
 
     {:ok, %State{port: port}}
   end
@@ -78,9 +81,8 @@ defmodule ExPerHash do
       {^port, {:data, data}} ->
         :erlang.binary_to_term data
     after
-      10000 ->
+      @timeout ->
         {:error, :port_timeout}
     end
   end
 end
-
