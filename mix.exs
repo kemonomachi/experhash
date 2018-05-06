@@ -62,7 +62,7 @@ defmodule Mix.Tasks.Clean.Make do
   use Mix.Task
 
   def run(_) do
-    {result, _error_code} = System.cmd("make", ['clean'], stderr_to_stdout: true)
+    {result, _error_code} = System.cmd("make", ["clean"], stderr_to_stdout: true)
     Mix.shell.info result
 
     :ok
