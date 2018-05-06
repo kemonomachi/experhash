@@ -22,5 +22,5 @@ include $(header_deps)
 
 .PHONY: clean
 clean:
-	rm -f priv/exphash_port $(objects) $(header_deps)
+	rm -f priv/experhash_port $(objects) $(header_deps)
 
