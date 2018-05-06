@@ -5,7 +5,7 @@ Perceptual hashing for images. Implemented as a C++ program connected to
 Elixir via a port.
 
 
-##Installation
+## Installation
 
 Requires [Magick++](http://www.imagemagick.org/Magick++/), the ImageMagick
 C++ API. Check your package manager or the [ImageMagick downloads page](http://www.imagemagick.org/script/binary-releases.php).
@@ -27,7 +27,7 @@ $ mix deps.get
 Run `mix compile` to build both the Elixir and the C++ code.
 
 
-##Usage
+## Usage
 
 ```elixir
 iex> {:ok, srv} = ExPerHash.start_link
@@ -68,7 +68,7 @@ The `hamming_distance/3` function compares two hashes and return the number of
 bits that differ. Low distance means similar images.
 
 
-##License
+## License
 
 Copyright © 2015 Ookami Kenrou \<ookamikenrou@gmail.com\>
 
