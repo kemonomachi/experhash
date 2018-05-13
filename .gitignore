@@ -1,6 +1,6 @@
 /_build
 /deps
-/priv/experhash
+/priv/experhash_port
 erl_crash.dump
 *.o
 *.d
