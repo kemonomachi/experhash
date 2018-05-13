@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     version="1.1"
+     height="100"
+     width="100">
+  <defs>
+    <radialGradient id="gradient"
+                    r="60%">
+      <stop offset="0%" stop-color="#000"/>
+      <stop offset="100%" stop-color="#fff"/>
+    </radialGradient>
+  </defs>
+
+  <rect y="0"
+        x="0"
+        height="100"
+        width="100"
+        fill="url(#gradient)"/>
+</svg>
