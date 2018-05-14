@@ -31,8 +31,8 @@ namespace ExPerHash {
     geo.aspect(true);
 
     Magick::Image img(filename);
-    img.type(Magick::GrayscaleType);
     img.resize(geo);
+    img.type(Magick::GrayscaleType);
 
     std::vector<uint8_t> pixels(PIXEL_COUNT);
 
