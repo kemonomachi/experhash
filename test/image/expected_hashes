@@ -1,5 +1,15 @@
-{"filled.svg", <<0, 0, 0, 0, 0, 0, 0, 0>>}.
-{"half_horizontal.svg", <<0, 0, 1, 1, 1, 0, 0, 0>>}.
-{"half_vertical.svg", <<16#38, 16#38, 16#38, 16#38, 16#38, 16#38, 16#38, 16#38>>}.
-{"linear_gradient.svg", <<16#0E, 16#0E, 16#0E, 16#0E, 16#0E, 16#0E, 16#0E, 16#0E>>}.
-{"radial_gradient.svg", <<16#0E, 16#0E, 16#0E, 16#0E, 16#0F, 16#0F, 16#0F, 16#0E>>}.
+#{filename => "filled.svg",
+  aHash => <<0, 0, 0, 0, 0, 0, 0, 0>>,
+  dHash => <<0, 0, 0, 0, 0, 0, 0, 0>>}.
+#{filename => "half_horizontal.svg",
+  aHash => <<0, 0, 0, 0, 16#FF, 16#FF, 16#FF, 16#FF>>,
+  dHash => <<0, 0, 1, 1, 1, 0, 0, 0>>}.
+#{filename => "half_vertical.svg",
+  aHash => <<16#0F,16#0F, 16#0F, 16#0F, 16#0F, 16#0F, 16#0F, 16#0F>>,
+  dHash => <<16#38, 16#38, 16#38, 16#38, 16#38, 16#38, 16#38, 16#38>>}.
+#{filename => "linear_gradient.svg",
+  aHash => <<16#C3, 16#C3, 16#C3, 16#C3, 16#C3, 16#C3, 16#C3, 16#C3>>,
+  dHash => <<16#0E, 16#0E, 16#0E, 16#0E, 16#0E, 16#0E, 16#0E, 16#0E>>}.
+#{filename => "radial_gradient.svg",
+  aHash => <<16#FF, 16#C3, 16#81, 16#81, 16#81, 16#81, 16#C3, 16#FF>>,
+  dHash => <<16#0E, 16#0E, 16#0E, 16#0E, 16#0F, 16#0F, 16#0F, 16#0E>>}.
