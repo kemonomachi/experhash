@@ -81,7 +81,7 @@ namespace ExPerHash {
     for(int i = 0; i < SIZE; ++i) {
       for(int j = 0; j < SIZE; ++j) {
         row_hash[i] |= (pixels[i*SIZE + j] < pixels[i*SIZE + j+1]) << (7-j);
-        col_hash[i] |= (pixels[i + j*SIZE] < pixels[(i + (j+1)*SIZE)%PIXEL_COUNT + j/8]) << (7-j);
+        col_hash[i] |= (pixels[i + j*SIZE] < pixels[(i + (j+1)*SIZE)%PIXEL_COUNT + j/7]) << (7-j);
       }
     }
 
