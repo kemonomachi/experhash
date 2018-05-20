@@ -1,43 +1,31 @@
 defmodule ExPerHashTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   setup_all do
-    #Testfile download: http://danbooru.donmai.us/posts/167739
-    testfile = Path.join File.cwd!, "test/image/264f94fb2b7d5718a43534830aa74ff2.jpg"
+    {:ok, server} = ExPerHash.start_link
 
-    if not File.exists?(testfile) do
-      {:error, "Testfile not found"}
-    else
-      {:ok, srv} = ExPerHash.start_link
-
-      {:ok, %{server: srv, image: testfile}}
-    end
+    %{server: server}
   end
 
 
-  test "aHash", %{server: server, image: image} do
-    {:ok, hash} = ExPerHash.a_hash server, image
+  File.cwd!
+  |> Path.join("test/image/expected_hashes")
+  |> :file.consult
+  |> elem(1)
 
-    expected = <<0xfffff3c3c7c38300 :: 64>>
+  |> Enum.flat_map(fn(%{filename: filename, hashes: hashes}) ->
+       Enum.map hashes, fn({hash_type, expected}) ->
+         {hash_type, filename, expected}
+       end
+     end)
 
-    assert hash == expected
-  end
+  |> Enum.each(fn({hash_type, filename, expected}) ->
+       test "#{hash_type} on #{filename}", %{server: server} do
+         {:ok, actual} = ExPerHash.unquote(hash_type)(server, Path.join("test/image", unquote(filename)))
 
-  test "dHash", %{server: server, image: image} do
-    {:ok, hash} = ExPerHash.d_hash server, image
-
-    expected = <<0x8cada78f9d8d0e27 :: 64>>
-
-    assert hash == expected
-  end
-
-  test "ddHash", %{server: server, image: image} do
-    {:ok, hash} = ExPerHash.dd_hash server, image
-
-    expected = <<0x8cada78f9d8d0e27 :: 64, 0x4d09038717311959 :: 64>>
-
-    assert hash == expected
-  end
+         assert actual == unquote(expected)
+       end
+     end)
 
   test "Hamming Distance", %{server: server} do
     assert ExPerHash.hamming_distance(server, <<0x8cada78f9d8d0e27 :: 64>>, <<0x8cada78f9d8d0e27 :: 64>>) == {:ok, 0}
