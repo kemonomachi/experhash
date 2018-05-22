@@ -2,9 +2,7 @@
   aHash algorithm by dr. Neal Krawitz, see http://www.hackerfactor.com/blog/index.php?/archives/432-Looks-Like-It.html
 
   dHash algorithm by dr Neal Krawitz and David Oftedal, see http://www.hackerfactor.com/blog/index.php?/archives/529-Kind-of-Like-That.html
-  and http://01101001.net/programming.php. This version wraps each row around
-  to the next instead of using an extra column. The last row wraps around to
-  the first.
+  and http://01101001.net/programming.php.
 
   ddHash is a double dHash, one row-wise and one column-wise.
 */
@@ -26,19 +24,23 @@ namespace ExPerHash {
   const int D_HASH_SIZE = PIXEL_COUNT / 8;
   const int DD_HASH_SIZE = 2*D_HASH_SIZE;
 
-  std::vector<uint8_t> read_pixels(const std::string &filename) {
-    Magick::Geometry geo(SIZE, SIZE);
+  std::vector<uint8_t> read_pixels(const std::string &filename, const size_t width, const size_t height) {
+    Magick::Geometry geo(width, height);
     geo.aspect(true);
 
     Magick::Image img(filename);
     img.resize(geo);
     img.type(Magick::GrayscaleType);
 
-    std::vector<uint8_t> pixels(PIXEL_COUNT);
+    std::vector<uint8_t> pixels(width * height);
 
-    img.write(0, 0, SIZE, SIZE, "R", Magick::CharPixel, pixels.data());
+    img.write(0, 0, width, height, "R", Magick::CharPixel, pixels.data());
 
     return pixels;
+  }
+
+  std::vector<uint8_t> read_pixels(const std::string &filename) {
+    return read_pixels(filename, SIZE, SIZE);
   }
 
   std::vector<uint8_t> a_hash(const std::string &filename) {
@@ -56,14 +58,16 @@ namespace ExPerHash {
   }
 
   std::vector<uint8_t> d_hash(const std::string &filename) {
-    std::vector<uint8_t> pixels = read_pixels(filename);
-    pixels.push_back(pixels[0]);
+    size_t height = 8;
+    size_t width = height + 1;
+
+    std::vector<uint8_t> pixels = read_pixels(filename, width, height);
 
     std::vector<uint8_t> hash(D_HASH_SIZE);
 
-    for(int row = 0; row < SIZE; ++row) {
-      for(int col = 0; col < SIZE; ++col) {
-        hash[row] |= (pixels[row*SIZE + col] < pixels[row*SIZE + col+1]) << (7-col);
+    for(int row = 0; row < height; ++row) {
+      for(int col = 0; col < width-1; ++col) {
+        hash[row] |= (pixels[row*width + col] < pixels[row*width + col+1]) << (7-col);
       }
     }
 

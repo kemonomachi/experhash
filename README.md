@@ -51,12 +51,12 @@ of an image.
 
 [dHash](http://www.hackerfactor.com/blog/index.php?/archives/529-Kind-of-Like-That.html)
 by dr. Neal Krawitz and [David Oftedal](http://01101001.net/programming.php)
-tracks gradients instead. In this variant, images are resized to 8x8 pixels
-and each row wraps around to the next, with the last row wrapping around to
-the first. Hash bits are set in order from left to right (most significant to
-least significant).
+tracks gradients instead. Hash bits are set in order from left to right
+(most significant to least significant).
 
-ddHash is a double dHash, one row-wise and one column-wise.
+ddHash is a double dHash, one row-wise and one column-wise. The current version
+resizes to 8x8 with wrap-around, but this will be changed to the "canonical" 9x9
+version soon.
 
 All hash functions return `{:ok, hash}` on success, where hash is a binary. For
 aHash and dHash, the hash is 64 bits (8 bytes), for ddHash it is 128 bits
@@ -70,7 +70,7 @@ bits that differ. Low distance means similar images.
 
 ## License
 
-Copyright © 2015 Ookami Kenrou \<ookamikenrou@gmail.com\>
+Copyright © 2015-2018 Ookami Kenrou \<ookamikenrou@gmail.com\>
 
 This work is free. You can redistribute it and/or modify it under the terms of
 the Do What The Fuck You Want To Public License, Version 2, as published by
