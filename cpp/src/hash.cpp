@@ -75,17 +75,18 @@ namespace ExPerHash {
   }
 
   std::vector<uint8_t> dd_hash(const std::string &filename) {
-    std::vector<uint8_t> pixels = read_pixels(filename);
-    pixels.push_back(pixels[0]);
+    size_t size = 9;
+
+    std::vector<uint8_t> pixels = read_pixels(filename, size, size);
 
     std::vector<uint8_t> hash(DD_HASH_SIZE);
     uint8_t *row_hash = hash.data();
     uint8_t *col_hash = hash.data() + DD_HASH_SIZE/2;
 
-    for(int i = 0; i < SIZE; ++i) {
-      for(int j = 0; j < SIZE; ++j) {
-        row_hash[i] |= (pixels[i*SIZE + j] < pixels[i*SIZE + j+1]) << (7-j);
-        col_hash[i] |= (pixels[i + j*SIZE] < pixels[(i + (j+1)*SIZE)%PIXEL_COUNT + j/7]) << (7-j);
+    for(int row = 0; row < size-1; ++row) {
+      for(int col = 0; col < size-1; ++col) {
+        row_hash[row] |= (pixels[row*size + col] < pixels[row*size + col+1]) << (7-col);
+        col_hash[col] |= (pixels[row*size + col] < pixels[(row+1)*size + col]) << (7-row);
       }
     }
 
