@@ -18,10 +18,8 @@
 #include "hash.h"
 
 namespace ExPerHash {
-  const int SIZE = 8;
-  const int PIXEL_COUNT = SIZE*SIZE;
-  const int A_HASH_SIZE = PIXEL_COUNT / 8;
-  const int D_HASH_SIZE = PIXEL_COUNT / 8;
+  const int A_HASH_SIZE = 8;
+  const int D_HASH_SIZE = 8;
   const int DD_HASH_SIZE = 2*D_HASH_SIZE;
 
   std::vector<uint8_t> read_pixels(const std::string &filename, const size_t width, const size_t height) {
@@ -39,18 +37,16 @@ namespace ExPerHash {
     return pixels;
   }
 
-  std::vector<uint8_t> read_pixels(const std::string &filename) {
-    return read_pixels(filename, SIZE, SIZE);
-  }
-
   std::vector<uint8_t> a_hash(const std::string &filename) {
-    std::vector<uint8_t> pixels = read_pixels(filename);
+    size_t size = 8;
 
-    int average = std::accumulate(pixels.begin(), pixels.end(), 0) / PIXEL_COUNT;
+    std::vector<uint8_t> pixels = read_pixels(filename, size, size);
+
+    int average = std::accumulate(pixels.begin(), pixels.end(), 0) / (size*size);
 
     std::vector<uint8_t> hash(A_HASH_SIZE);
 
-    for(int i = 0; i < PIXEL_COUNT; ++i) {
+    for(int i = 0; i < size*size; ++i) {
       hash[i/8] |= (pixels[i] > average) << (7 - i%8);
     }
 
