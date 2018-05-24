@@ -29,13 +29,13 @@ int main(int argc, char *argv[]) {
         std::vector<uint8_t> hash;
 
         if(type == "a") {
-          hash = ExPerHash::a_hash(filename);
+          hash = ExPerHash::a_hash<uint8_t, 8>(filename);
         }
         else if(type == "d") {
-          hash = ExPerHash::d_hash(filename);
+          hash = ExPerHash::d_hash<uint8_t, 8>(filename);
         }
         else if(type == "dd") {
-          hash = ExPerHash::dd_hash(filename);
+          hash = ExPerHash::dd_hash<uint8_t, 8>(filename);
         }
         else {
           throw ExPerHash::DecodeError("unknown_hash_type");

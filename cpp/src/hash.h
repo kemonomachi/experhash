@@ -6,9 +6,14 @@
 #include <vector>
 
 namespace ExPerHash {
-  std::vector<uint8_t> a_hash(const std::string &filename);
-  std::vector<uint8_t> d_hash(const std::string &filename);
-  std::vector<uint8_t> dd_hash(const std::string &filename);
+  template<typename uintX_t, int X>
+  std::vector<uintX_t> a_hash(const std::string &filename);
+
+  template<typename uintX_t, int X>
+  std::vector<uintX_t> d_hash(const std::string &filename);
+
+  template<typename uintX_t, int X>
+  std::vector<uintX_t> dd_hash(const std::string &filename);
 }
 
 #endif
