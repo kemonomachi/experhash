@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
           .encode_version()
           .encode_tuple_header(2)
           .encode_atom("ok")
-          .encode_binary(hash.data(), hash.size())
+          .encode_binary(hash)
           .write();
       }
       else if(arity == 3 && command == "hamming_distance") {

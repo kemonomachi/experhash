@@ -117,9 +117,15 @@ namespace ExPerHash {
 
   //Encoder& Encoder::encode_atom_as(std::string atom, erlang_char_encoding from_enc, erlang_char_encoding to_enc);
   
-  Encoder& Encoder::encode_binary(const std::vector<char> &binary) {
-    return encode_binary(binary.data(), binary.size());
+  template<typename T>
+  Encoder& Encoder::encode_binary(const std::vector<T> &binary) {
+    return encode_binary(binary.data(), binary.size() * sizeof(T));
   }
+
+  template Encoder& Encoder::encode_binary(const std::vector<uint8_t> &binary);
+  template Encoder& Encoder::encode_binary(const std::vector<uint16_t> &binary);
+  template Encoder& Encoder::encode_binary(const std::vector<uint32_t> &binary);
+  template Encoder& Encoder::encode_binary(const std::vector<uint64_t> &binary);
 
   Encoder& Encoder::encode_binary(const void *binary, long len) {
     if(ei_x_encode_binary(&buffer, binary, len)) {

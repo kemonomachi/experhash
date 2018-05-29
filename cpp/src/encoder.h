@@ -30,7 +30,7 @@ namespace ExPerHash {
     Encoder& encode_string(const std::string &str);
     Encoder& encode_atom(const std::string &atom);
     //Encoder& encode_atom_as(std::string atom, erlang_char_encoding from_enc, erlang_char_encoding to_enc);
-    Encoder& encode_binary(const std::vector<char> &binary);
+    template<typename T> Encoder& encode_binary(const std::vector<T> &binary);
     Encoder& encode_binary(const void *binary, long len);
     Encoder& encode_pid(const erlang_pid &p);
     Encoder& encode_fun(const erlang_fun &p);
