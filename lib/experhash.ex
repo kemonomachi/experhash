@@ -22,29 +22,51 @@ defmodule ExPerHash do
     GenServer.start_link __MODULE__, [], name: name
   end
 
+  Enum.each [8, 16, 32, 64], fn(size) ->
+    bit_size = size * size
+
+    Enum.each [:a, :d], fn(type) ->
+      function_name = :"#{type}_hash_#{bit_size}"
+
+      @doc """
+      Compute the #{bit_size}-bit #{type}Hash for the image named `filename`.
+      """
+      @spec unquote(function_name)(GenServer.server, String.t) :: {:ok, <<_ :: unquote(bit_size)>>} | error
+      def unquote(function_name)(server, filename) do
+        GenServer.call server, {:command, {:hash, unquote(type), filename, unquote(size)}}, @timeout
+      end
+    end
+
+    function_name = :"dd_hash_#{2 * bit_size}"
+    @doc """
+    Compute the #{2 * bit_size}-bit ddHash for the image named `filename`.
+    """
+    @spec unquote(function_name)(GenServer.server, String.t) :: {:ok, <<_ :: unquote(2 * bit_size)>>} | error
+    def unquote(function_name)(server, filename) do
+      GenServer.call server, {:command, {:hash, :dd, filename, unquote(size)}}, @timeout
+    end
+  end
+
   @doc """
-  Calculate the aHash for the image named `filename`.
+  Calculate the 64-bit aHash for the image named `filename`.
   """
+  @deprecated "Use a_hash_64/2 instead"
   @spec a_hash(GenServer.server, String.t) :: {:ok, <<_ :: 64>>} | error
-  def a_hash(server, filename) do
-    GenServer.call server, {:command, {:hash, :a, filename}}, @timeout
-  end
+  defdelegate a_hash(server, filename), to: __MODULE__, as: :a_hash_64
 
   @doc """
-  Calculate the dHash for the image named `filename`.
+  Calculate the 64-bit dHash for the image named `filename`.
   """
+  @deprecated "Use d_hash_64/2 instead"
   @spec d_hash(GenServer.server, String.t) :: {:ok, <<_ :: 64>>} | error
-  def d_hash(server, filename) do
-    GenServer.call server, {:command, {:hash, :d, filename}}, @timeout
-  end
+  defdelegate d_hash(server, filename), to: __MODULE__, as: :d_hash_64
 
   @doc """
-  Calculate the ddHash for the image named `filename`.
+  Calculate the 128-bit ddHash for the image named `filename`.
   """
+  @deprecated "Use dd_hash_128/2 instead"
   @spec dd_hash(GenServer.server, String.t) :: {:ok, <<_ :: 128>>} | error
-  def dd_hash(server, filename) do
-    GenServer.call server, {:command, {:hash, :dd, filename}}, @timeout
-  end
+  defdelegate dd_hash(server, filename), to: __MODULE__, as: :dd_hash_128
 
   @doc """
   Calculate the Hamming distance between two hashes.

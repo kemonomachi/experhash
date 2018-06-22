@@ -33,10 +33,10 @@ Run `mix compile` to build both the Elixir and the C++ code.
 iex> {:ok, srv} = ExPerHash.start_link
 {:ok, #PID<0.91.0>}
 
-iex> {:ok, hash1} = ExPerHash.dd_hash srv, "some/image.png"
+iex> {:ok, hash1} = ExPerHash.dd_hash_128 srv, "some/image.png"
 {:ok, <<140, 173, 167, 143, 157, 141, 14, 39, 77, 9, 3, 135, 23, 49, 25, 89>>}
 
-iex> {:ok, hash2} = ExPerHash.dd_hash srv, "some/other/image.png"
+iex> {:ok, hash2} = ExPerHash.dd_hash_128 srv, "some/other/image.png"
 {:ok, <<140, 173, 167, 143, 157, 141, 14, 39, 77, 9, 0, 135, 23, 49, 25, 89>>}
 
 iex> ExPerHash.hamming_distance srv, hash1, hash2
@@ -56,9 +56,10 @@ tracks gradients instead. Hash bits are set in order from left to right
 
 ddHash is a double dHash, one row-wise and one column-wise.
 
-All hash functions return `{:ok, hash}` on success, where hash is a binary. For
-aHash and dHash, the hash is 64 bits (8 bytes), for ddHash it is 128 bits
-(16 bytes).
+All hash functions return `{:ok, hash}` on success, where hash is a binary with
+four possible sizes. For aHash and dHash, the sizes are 64, 256, 1024, and 4096
+bits. For ddHash, the sizes are 128, 512, 2048, and 8192 bits. Each function
+name ends with the hash size, like `a_hash_64` and `dd_hash_128`.
 
 On error, all functions return `{:error, {error_type, reason}`.
 

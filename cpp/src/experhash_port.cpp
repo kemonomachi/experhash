@@ -28,35 +28,7 @@ int main(int argc, char *argv[]) {
       int arity  = decoder.decode_tuple_header();
       std::string command = decoder.decode_atom();
 
-      if(arity == 3 && command == "hash") {
-        std::string type = decoder.decode_atom();
-        std::string filename = decoder.decode_binary_string();
-
-        std::vector<uint8_t> hash;
-
-        if(type == "a") {
-          hash = ExPerHash::a_hash<uint8_t, 8>(filename);
-        }
-        else if(type == "d") {
-          hash = ExPerHash::d_hash<uint8_t, 8>(filename);
-        }
-        else if(type == "dd") {
-          hash = ExPerHash::dd_hash<uint8_t, 8>(filename);
-        }
-        else {
-          throw ExPerHash::DecodeError("unknown_hash_type");
-        }
-
-        ExPerHash::Encoder response;
-
-        response
-          .encode_version()
-          .encode_tuple_header(2)
-          .encode_atom("ok")
-          .encode_binary(hash)
-          .write();
-      }
-      else if(arity == 4 && command == "hash") {
+      if(arity == 4 && command == "hash") {
         std::string type = decoder.decode_atom();
         std::string filename = decoder.decode_binary_string();
         long hash_size = decoder.decode_long();
