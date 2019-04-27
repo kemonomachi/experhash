@@ -72,8 +72,9 @@ defmodule ExPerHash do
   Calculate the Hamming distance between two hashes.
   """
   @spec hamming_distance(GenServer.server, binary, binary) :: {:ok, non_neg_integer} | error
-  def hamming_distance(server, hash1, hash2) do
-    GenServer.call server, {:command, {:hamming_distance, hash1, hash2}}
+  def hamming_distance(_server, hash1, hash2) do
+    # call optimized Elixir version
+    ExPerHash.Distance.hamming_distance(hash1, hash2)
   end
 
 
