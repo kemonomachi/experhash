@@ -6,12 +6,12 @@ defmodule ExPerHash.Mixfile do
       app: :experhash,
       name: "ExPerHash",
       version: "0.2.0",
-      elixir: "~> 1.0",
+      elixir: "~> 1.1",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
-      compilers: [:make, :elixir, :app],
+      compilers: [:elixir_make] ++ Mix.compilers,
+      make_clean: ["clean"],
       package: package(),
-      aliases: aliases(),
       deps: deps()
     ]
   end
@@ -20,12 +20,8 @@ defmodule ExPerHash.Mixfile do
     [applications: [:logger]]
   end
 
-  defp aliases do
-    [clean: ["clean", "clean.make"]]
-  end
-
   defp deps do
-    []
+    [{:elixir_make, "~> 0.5", runtime: false}]
   end
 
   defp package do
@@ -42,29 +38,5 @@ defmodule ExPerHash.Mixfile do
       licenses: ["WTFPL"],
       links: %{"GitHub" => "https://github.com/kemonomachi/experhash"}
     ]
-  end
-end
-
-defmodule Mix.Tasks.Compile.Make do
-  @shortdoc "Compile C++ code"
-  use Mix.Task
-
-  def run(_) do
-    {result, _error_code} = System.cmd("make", [], stderr_to_stdout: true)
-    Mix.shell.info result
-
-    :ok
-  end
-end
-
-defmodule Mix.Tasks.Clean.Make do
-  @shortdoc "Delete generated C++ files"
-  use Mix.Task
-
-  def run(_) do
-    {result, _error_code} = System.cmd("make", ["clean"], stderr_to_stdout: true)
-    Mix.shell.info result
-
-    :ok
   end
 end
