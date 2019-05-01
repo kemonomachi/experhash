@@ -29,7 +29,6 @@ defmodule ExPerHash.Mixfile do
       files: [
         "cpp",
         "lib",
-        "priv",
         "mix.exs",
         "README*",
         "LICENSE*",
