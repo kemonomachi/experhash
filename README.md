@@ -39,7 +39,7 @@ iex> {:ok, hash1} = ExPerHash.dd_hash_128 srv, "some/image.png"
 iex> {:ok, hash2} = ExPerHash.dd_hash_128 srv, "some/other/image.png"
 {:ok, <<140, 173, 167, 143, 157, 141, 14, 39, 77, 9, 0, 135, 23, 49, 25, 89>>}
 
-iex> ExPerHash.hamming_distance srv, hash1, hash2
+iex> ExPerHash.hamming_distance hash1, hash2
 {:ok, 2}
 ```
 
@@ -63,7 +63,7 @@ name ends with the hash size, like `a_hash_64` and `dd_hash_128`.
 
 On error, all functions return `{:error, {error_type, reason}`.
 
-The `hamming_distance/3` function compares two hashes and return the number of
+The `hamming_distance/2` function compares two hashes and return the number of
 bits that differ. Low distance means similar images.
 
 
