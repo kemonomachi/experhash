@@ -1,5 +1,4 @@
 #include <string>
-#include <stdexcept>
 #include <stdint.h>
 #include <vector>
 
@@ -54,31 +53,6 @@ int main(int argc, char *argv[]) {
             throw ExPerHash::DecodeError("illegal_hash_size");
             break;
         }
-      }
-      else if(arity == 3 && command == "hamming_distance") {
-        std::vector<uint8_t> hash1 = decoder.decode_binary();
-        std::vector<uint8_t> hash2 = decoder.decode_binary();
-        
-        int dist = 0;
-
-        for(std::vector<uint8_t>::size_type i = 0; i < hash1.size(); ++i) {
-          //Algorithm by Peter Wegner. See https://en.wikipedia.org/wiki/Hamming_distance#Algorithm_example
-          uint8_t val = hash1[i] ^ hash2[i];
-
-          while(val != 0) {
-            ++dist;
-            val &= val - 1;
-          }
-        }
-
-        ExPerHash::Encoder response;
-
-        response
-          .encode_version()
-          .encode_tuple_header(2)
-          .encode_atom("ok")
-          .encode_long(dist)
-          .write();
       }
       else {
         write_error("comm_error", "unknown_command");

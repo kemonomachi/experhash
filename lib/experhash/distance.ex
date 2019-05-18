@@ -5,7 +5,6 @@ defmodule ExPerHash.Distance do
   Compute hamming distance for two 32-byte binaries.
   This is an optimized version of the generic function below.
   """
-  @spec hamming_distance(binary, binary) :: integer
   def hamming_distance(
          <<val1_0::8, val1_1::8, val1_2::8, val1_3::8, val1_4::8, val1_5::8, val1_6::8, val1_7::8,
           val1_8::8, val1_9::8, val1_10::8, val1_11::8, val1_12::8, val1_13::8, val1_14::8, val1_15::8,
@@ -101,7 +100,7 @@ defmodule ExPerHash.Distance do
   @doc """
   Compute hamming distance for two binaries of equal size.
   """
-  @spec hamming_distance(binary, binary) :: integer
+  @spec hamming_distance(binary, binary) :: {:ok, non_neg_integer} | no_return
   def hamming_distance(hash1, hash2) do
     {:ok, hamming_value_distance(:binary.bin_to_list(hash1), :binary.bin_to_list(hash2), 0)}
   end

@@ -69,8 +69,15 @@ defmodule ExPerHash do
   defdelegate dd_hash(server, filename), to: __MODULE__, as: :dd_hash_128
 
   @doc """
-  Calculate the Hamming distance between two hashes.
+  Compute the Hamming distance between two hashes of equal size.
   """
+  @spec hamming_distance(binary, binary) :: {:ok, non_neg_integer}
+  defdelegate hamming_distance(hash1, hash2), to: :"#{__MODULE__}.Distance"
+
+  @doc """
+  Calculate the Hamming distance between two hashes of equal size.
+  """
+  @deprecated "Use hamming_distance/2 instead. GenServer parameter no longer used"
   @spec hamming_distance(GenServer.server, binary, binary) :: {:ok, non_neg_integer} | error
   def hamming_distance(_server, hash1, hash2) do
     # call optimized Elixir version
